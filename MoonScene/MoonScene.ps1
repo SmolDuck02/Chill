@@ -3,11 +3,24 @@
     Displays a beautiful cosmic scene with a ringed planet and twinkling stars.
 #>
 
+# If launched without proper size, relaunch in a correctly sized conhost window
+if (-not $env:MOONSCENE_LAUNCHED) {
+    $env:MOONSCENE_LAUNCHED = "1"
+    $scriptPath = $MyInvocation.MyCommand.Path
+    if (-not $scriptPath) {
+        $scriptPath = Join-Path (Get-Location) 'MoonScene.ps1'
+    }
+    
+    # Launch in conhost with specific size (columns x lines)
+    Start-Process conhost.exe -ArgumentList "powershell.exe -ExecutionPolicy Bypass -File `"$scriptPath`"" -Wait
+    exit
+}
+
 function Show-MoonScene {
-    # Resize console window to fit the art
+    # Try to resize (works in conhost)
     try {
         $width = 150
-        $height = 55
+        $height = 40
         $rawUi = $Host.UI.RawUI
         $bufferSize = $rawUi.BufferSize
         $bufferSize.Width = [Math]::Max($bufferSize.Width, $width)
