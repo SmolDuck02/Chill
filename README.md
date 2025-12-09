@@ -11,8 +11,9 @@ A beautiful ASCII art cosmic scene that pops up to remind you to **keep it chill
 - 🪐 Beautiful ASCII art ringed planet inspired by Saturn
 - ⭐ Twinkling stars across a cosmic void
 - 🎨 Rainbow gradient "KEEP IT CHILL" text
-- ⏰ Optional hourly reminder mode
+- ⏰ Configurable reminder intervals
 - 🖥️ Auto-resizing terminal window
+- ⚙️ Easy configuration file for customization
 
 ## 🚀 Quick Start
 
@@ -25,7 +26,7 @@ A beautiful ASCII art cosmic scene that pops up to remind you to **keep it chill
 ```powershell
 .\MoonScene\StartMoonReminder.ps1
 ```
-This will show the scene immediately, then pop up every hour. Minimize the window and let it run. Press `Ctrl+C` to stop.
+This will show the scene immediately, then pop up at your configured interval. Minimize the window and let it run. Press `Ctrl+C` to stop.
 
 ### Launch in New Window
 ```powershell
@@ -37,32 +38,73 @@ This will show the scene immediately, then pop up every hour. Minimize the windo
 ```
 MoonGreeting/
 ├── README.md
-├── MoonScene/
-│   ├── MoonScene.ps1           # Main cosmic scene display
-│   ├── LaunchMoonScene.ps1     # Opens scene in new terminal
-│   └── StartMoonReminder.ps1   # Hourly reminder loop
+├── .gitignore
+└── MoonScene/
+    ├── config.ps1              # ⚙️ CONFIGURATION FILE - Edit this!
+    ├── MoonScene.ps1           # Main cosmic scene display
+    ├── LaunchMoonScene.ps1     # Opens scene in new terminal
+    └── StartMoonReminder.ps1   # Reminder loop
+```
+
+## ⚙️ Configuration
+
+All customizable settings are in **`MoonScene/config.ps1`**:
+
+### Window Settings
+```powershell
+WindowWidth  = 150    # Terminal width in characters
+WindowHeight = 40     # Terminal height in lines
+```
+
+### Reminder Interval
+```powershell
+ReminderIntervalSeconds = 3600    # 3600 = 1 hour, 1800 = 30 min, 300 = 5 min
+```
+
+### Color Scheme
+```powershell
+# Available colors: Black, DarkBlue, DarkGreen, DarkCyan, DarkRed,
+# DarkMagenta, DarkYellow, Gray, DarkGray, Blue, Green, Cyan,
+# Red, Magenta, Yellow, White
+
+BackgroundColor = 'Black'      # Background color
+
+# Stars (gradient from top)
+StarsColor1 = 'DarkBlue'
+StarsColor2 = 'DarkCyan'
+StarsColor3 = 'Cyan'
+
+# Planet rings
+RingGlow   = 'DarkYellow'
+RingBright = 'Yellow'
+
+# Planet body
+PlanetHighlight = 'White'
+PlanetMid       = 'Gray'
+PlanetDark      = 'DarkGray'
+
+# "KEEP IT CHILL" text (rainbow gradient)
+TextColor1 = 'Red'
+TextColor2 = 'DarkYellow'
+TextColor3 = 'Yellow'
+TextColor4 = 'Green'
+TextColor5 = 'Cyan'
+TextColor6 = 'Blue'
+TextColor7 = 'Magenta'
+
+# Footer
+FooterColor = 'DarkCyan'
 ```
 
 ## 🎮 Controls
 
 - Press **Enter** to close the scene
-- Press **Ctrl+C** in the reminder window to stop hourly reminders
+- Press **Ctrl+C** in the reminder window to stop reminders
 
 ## ⚙️ Requirements
 
 - Windows 10/11
 - PowerShell 5.1 or later (comes pre-installed on Windows)
-
-## 🛠️ Customization
-
-Edit `MoonScene.ps1` to customize:
-- Change colors (look for `-ForegroundColor` parameters)
-- Modify the ASCII art
-- Adjust window size (change `$width` and `$height` variables)
-
-Edit `StartMoonReminder.ps1` to change reminder interval:
-- Default: `3600` seconds (1 hour)
-- Change `Start-Sleep -Seconds 3600` to your preferred interval
 
 ## 📜 License
 
@@ -75,4 +117,3 @@ Created with ✨ cosmic vibes ✨
 ---
 
 *Keep it chill* 🌙
-
