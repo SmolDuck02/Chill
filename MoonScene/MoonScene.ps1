@@ -9,6 +9,28 @@ param(
     [switch]$DirectLaunch
 )
 
+# --- FORCE FOCUS BLOCK ---
+$signature = @"
+[DllImport("user32.dll")]
+public static extern bool SetForegroundWindow(IntPtr hWnd);
+[DllImport("kernel32.dll")]
+public static extern IntPtr GetConsoleWindow();
+"@
+
+# Load the Win32 API
+if (-not ([System.Management.Automation.PSTypeName]'Win32Focus').Type) {
+    $win32 = Add-Type -MemberDefinition $signature -Name "Win32Focus" -Namespace Win32Functions -PassThru
+} else {
+    $win32 = [Win32Functions.Win32Focus]
+}
+
+# Grab the handle of the current console window and force it to the front
+$handle = $win32::GetConsoleWindow()
+$win32::SetForegroundWindow($handle) | Out-Null
+# -------------------------
+
+
+
 # Load configuration
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 if (-not $scriptDir) { $scriptDir = Get-Location }
