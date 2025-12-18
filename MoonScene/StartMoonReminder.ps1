@@ -9,7 +9,8 @@
 # Load configuration
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $configPath = Join-Path $scriptDir 'config.ps1'
-$Config = & $configPath
+$ConfigData = & $configPath
+$Config = $ConfigData.Config
 
 $moonScenePath = Join-Path $scriptDir 'MoonScene.ps1'
 $intervalSeconds = $Config.ReminderIntervalSeconds
@@ -23,11 +24,20 @@ Write-Host "  Keep this window open (you can minimize it)." -ForegroundColor Dar
 Write-Host "  Press Ctrl+C to stop the reminders." -ForegroundColor DarkGray
 Write-Host ""
 
+# Function to launch scene safely
+function Launch-MoonScene {
+    # Launch directly in conhost with DirectLaunch flag
+    Start-Process conhost.exe -ArgumentList "powershell.exe -ExecutionPolicy Bypass -File `"$moonScenePath`" -DirectLaunch"
+}
+
 # Show it immediately the first time
-Start-Process powershell -ArgumentList '-ExecutionPolicy', 'Bypass', '-File', $moonScenePath
+Launch-MoonScene
 
 # Then loop at configured interval
 while ($true) {
+    $nextTime = (Get-Date).AddMinutes($intervalMinutes).ToString('HH:mm:ss')
+
+    Write-Host "   Next reminder in $intervalMinutes minutes... ($nextTime)" -ForegroundColor DarkGray
     Start-Sleep -Seconds $intervalSeconds
-    Start-Process powershell -ArgumentList '-ExecutionPolicy', 'Bypass', '-File', $moonScenePath
+    Launch-MoonScene
 }

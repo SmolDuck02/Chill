@@ -6,5 +6,5 @@
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $moonScenePath = Join-Path $scriptDir 'MoonScene.ps1'
 
-Start-Process powershell -ArgumentList '-ExecutionPolicy', 'Bypass', '-File', $moonScenePath
-
+# Launch directly with DirectLaunch flag to prevent relaunch loop
+Start-Process conhost.exe -ArgumentList "powershell.exe -ExecutionPolicy Bypass -File `"$moonScenePath`" -DirectLaunch"

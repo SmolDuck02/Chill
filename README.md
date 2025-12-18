@@ -52,7 +52,7 @@ All customizable settings are in **`MoonScene/config.ps1`**:
 
 ### Window Settings
 ```powershell
-WindowWidth  = 150    # Terminal width in characters
+WindowWidth  = 200    # Terminal width in characters
 WindowHeight = 40     # Terminal height in lines
 ```
 
